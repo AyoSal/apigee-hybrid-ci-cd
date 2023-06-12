@@ -40,7 +40,7 @@
 			<id>dev</id>
 			<properties>
 				<apigee.profile>dev</apigee.profile>
-				<apigee.env>eval</apigee.env>
+				<apigee.env>dev</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
@@ -49,15 +49,15 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>34.117.135.82.nip.io</api.northbound.domain>
+				<api.northbound.domain>quebecawstest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
 		<profile>
-			<id>test</id>
+			<id>stage</id>
 			<properties>
-				<apigee.profile>test</apigee.profile>
-				<apigee.env>eval</apigee.env>
+				<apigee.profile>stage</apigee.profile>
+				<apigee.env>stage</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
@@ -66,15 +66,15 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>34.117.135.82.nip.io</api.northbound.domain>
+				<api.northbound.domain>quebecawstest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
 		<profile>
-			<id>prod</id>
+			<id>pre-prod</id>
 			<properties>
-				<apigee.profile>prod</apigee.profile>
-				<apigee.env>prod</apigee.env>
+				<apigee.profile>pre-prod</apigee.profile>
+				<apigee.env>pre-prod</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
@@ -83,16 +83,8 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>prod.34.117.135.82.nip.io</api.northbound.domain>
+				<api.northbound.domain>quebecgcptest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
-				<portal.url>${purl}</portal.url><!-- URL of the developer portal. -->
-				<portal.username>${pusername}</portal.username><!-- Username for the developer portal. -->
-  				<portal.password>${ppassword}</portal.password><!-- Password for the developer portal. -->
-				<portal.format>yaml</portal.format><!-- Format of the OpenAPI specs. json|yaml -->
-				<portal.api.doc.format>basic_html</portal.api.doc.format><!-- Format in the portal. Values: basic_html, restricted_html, full_html -->
-				<portal.directory>./target/openapi</portal.directory> <!-- Directory where OpenAPI specs are accessible. Using ./specs for sample -->
-				<apigee.smartdocs.config.options>update</apigee.smartdocs.config.options>
-				<apigee.smartdocs.config.file>./apicatalog-config.json</apigee.smartdocs.config.file>
 			</properties>
 		</profile>
 	</profiles>
