@@ -1,4 +1,12 @@
 <AssignMessage name="AssignMessage.SetTargetResource">
+
+    <!-- Hello World -->
+    <Set> 
+	   <Headers> 
+	      <Header name="Accept-Encoding">identity</Header> 
+		</Headers> 
+	</Set>
+
 	<AssignVariable>
 		<Name>flow.target.resource</Name>
 		<Ref>request.queryparam.date</Ref>
