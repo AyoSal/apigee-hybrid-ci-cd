@@ -9,7 +9,10 @@ steps:
     - |
       # store multiple values as environment variables
       # name all values with a common prefix (we'll use "build_")
-      if [ "$BRANCH_NAME" = "pre-prod" ]
+      if [ "$BRANCH_NAME" = "prod" ]
+      then
+        export build_profile="prod"
+      elif [ "$BRANCH_NAME" = "pre-prod" ]
       then
         export build_profile="pre-prod"
       elif [ "$BRANCH_NAME" = "stage" ]
