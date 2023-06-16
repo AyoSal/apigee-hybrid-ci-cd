@@ -40,7 +40,7 @@
 			<id>dev</id>
 			<properties>
 				<apigee.profile>dev</apigee.profile>
-				<apigee.env>eval</apigee.env>
+				<apigee.env>dev</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
 				<apigee.apiversion>v1</apigee.apiversion>
 				<apigee.org>${org}</apigee.org>
@@ -49,7 +49,7 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>mcn.quebecawstest.net</api.northbound.domain>
+				<api.northbound.domain>dev.quebecawstest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
@@ -66,7 +66,7 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>mcn.quebecawstest.net</api.northbound.domain>
+				<api.northbound.domain>stage.quebecawstest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
@@ -83,7 +83,24 @@
 				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
 				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
 				<apigee.config.options>update</apigee.config.options>
-				<api.northbound.domain>mcn.quebecgcptest.net</api.northbound.domain>
+				<api.northbound.domain>preprod.quebecgcptest.net</api.northbound.domain>
+				<api.testtag>~@wip,~@mock</api.testtag>
+			</properties>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<apigee.profile>prod</apigee.profile>
+				<apigee.env>prod</apigee.env>
+				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
+				<apigee.apiversion>v1</apigee.apiversion>
+				<apigee.org>${org}</apigee.org>
+				<apigee.options>override</apigee.options> <!-- overrides is default and the only option -->
+				<apigee.bearer>${bearer}</apigee.bearer> <!-- this takes precedence over service account file -->
+				<apigee.serviceaccount.file>${file}</apigee.serviceaccount.file>
+				<apigee.config.dir>./target/resources/edge</apigee.config.dir>
+				<apigee.config.options>update</apigee.config.options>
+				<api.northbound.domain>prod.quebecgcptest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
 			</properties>
 		</profile>
