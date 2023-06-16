@@ -60,7 +60,6 @@ When(/^I request all exchange rates with (.{3}) as the base currency for (.*)$/,
 });
 
 Then(/^I should see (.*) as the base currency$/, function(base, callback) {
-	console.log(JSON.stringify(base))
 	var self = this;
 	assertSuccessfulApiResponse(this.apickli)
 	.then(function() {
