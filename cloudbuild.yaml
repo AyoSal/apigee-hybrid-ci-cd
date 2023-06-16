@@ -18,8 +18,14 @@ steps:
       else
         export build_profile="dev"
       fi
-
-      export build_prefix="" 
+      
+      if [ -z "$_PR_NUMBER" ]
+      then
+      export build_prefix=""
+      else
+      export build_prefix="$_PR_NUMBER"
+      fi
+      
       export build_token=\"$(gcloud auth application-default print-access-token)\"
 
       # write all "build_" variables to the persistent volume "/workspace"
