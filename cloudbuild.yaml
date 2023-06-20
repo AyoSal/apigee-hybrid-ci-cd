@@ -18,7 +18,8 @@ steps:
       elif [ "$BRANCH_NAME" = "stage" ]
       then
         export build_profile="stage"
-      else
+      elif [ "$BRANCH_NAME" = "dev" ]
+      then
         export build_profile="dev"
       fi
       
