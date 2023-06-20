@@ -68,11 +68,11 @@
 				<apigee.config.options>update</apigee.config.options>
 				<api.northbound.domain>stage.quebecawstest.net</api.northbound.domain>
 				<api.testtag>~@wip,~@mock</api.testtag>
-			</properties>
-		</profile>
-		<profile>
-			<id>pre-prod</id>
-			<properties>
+		</properties>
+</profile>
+<profile>
+    <id>pre-prod</id>
+		<properties>
 				<apigee.profile>pre-prod</apigee.profile>
 				<apigee.env>pre-prod</apigee.env>
 				<apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
