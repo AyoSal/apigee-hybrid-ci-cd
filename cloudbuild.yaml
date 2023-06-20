@@ -27,7 +27,7 @@ steps:
       then
       export build_prefix=""
       else
-      export build_prefix="$_PR_NUMBER"
+      export build_prefix="PR${_PR_NUMBER}-"
       fi
       
       export build_token=\"$(gcloud auth application-default print-access-token)\"
