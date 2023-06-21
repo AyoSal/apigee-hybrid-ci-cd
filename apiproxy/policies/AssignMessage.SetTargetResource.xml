@@ -2,7 +2,7 @@
 
     <Set> 
 	   <Headers> 
-	      <Header name="Accept-Encoding">gzip,deflate</Header> 
+	      <Header name="Accept-Encoding">identity</Header> 
 		</Headers> 
 	</Set>
 
