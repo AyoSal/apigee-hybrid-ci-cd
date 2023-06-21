@@ -1,4 +1,11 @@
 <AssignMessage name="AssignMessage.SetTargetResource">
+
+    <Set> 
+	   <Headers> 
+	      <Header name="Accept-Encoding">gzip,deflate</Header> 
+		</Headers> 
+	</Set>
+
 	<AssignVariable>
 		<Name>flow.target.resource</Name>
 		<Ref>request.queryparam.date</Ref>
