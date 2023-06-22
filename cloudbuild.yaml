@@ -18,7 +18,8 @@ steps:
       elif [ "$BRANCH_NAME" = "stage" ]
       then
         export build_profile="stage"
-      else
+      elif [ "$BRANCH_NAME" = "dev" ]
+      then
         export build_profile="dev"
       fi
       
@@ -26,7 +27,7 @@ steps:
       then
       export build_prefix=""
       else
-      export build_prefix="$_PR_NUMBER"
+      export build_prefix="PR${_PR_NUMBER}-"
       fi
       
       export build_token=\"$(gcloud auth application-default print-access-token)\"
