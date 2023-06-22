@@ -9,41 +9,20 @@ steps:
     - |
       # store multiple values as environment variables
       # name all values with a common prefix (we'll use "build_")
-      if [ "$BRANCH_NAME" = "prod" ]
-      then
-        export build_profile="prod"
-      elif [ "$BRANCH_NAME" = "pre-prod" ]
-      then
-        export build_profile="pre-prod"
-      elif [ "$BRANCH_NAME" = "stage" ]
-      then
-        export build_profile="stage"
-      elif [ "$BRANCH_NAME" = "dev" ]
-      then
-        export build_profile="dev"
-      fi
-      
+    
       if [ -z "$_PR_NUMBER" ]
       then
+        export build_apigee_org=${PROJECT_ID}
+        export build_profile="${BRANCH_NAME}"
         export build_prefix=""
-        echo "**** Build triggered by commit ****"
-        echo "COMMIT_SHA: ${COMMIT_SHA}"
-        echo "REVISION_ID: ${REVISION_ID}"
-        echo "SHORT_SHA: ${SHORT_SHA}"
-        echo "BRANCH_NAME: ${BRANCH_NAME}"
-        echo "TRIGGER_NAME: ${TRIGGER_NAME}"
-        echo "_PR_NUMBER: ${_PR_NUMBER}"
-        echo "_BASE_BRANCH: ${_BASE_BRANCH}"
-        echo "_HEAD_BRANCH: ${_HEAD_BRANCH}"
-        echo "build_profile=${build_profile}"
-        echo "build_prefix=${build_prefix}"
-        echo "*********************************"
-      else
-        export build_prefix="PR${_PR_NUMBER}-"
-        export build_profile="${_BASE_BRANCH}"
 
-        if ["${_BASE_BRANCH}" = "prod"] ; then
-          if ["${_HEAD_BRANCH}" != "pre-prod"] ; then
+      else
+        export build_apigee_org=${PROJECT_ID}
+        export build_profile="${_BASE_BRANCH}"
+        export build_prefix="PR${_PR_NUMBER}-"
+
+        if [ "${_BASE_BRANCH}" = "prod" ] ; then
+          if [ "${_HEAD_BRANCH}" != "pre-prod" ] ; then
             echo "Pull Requests into prod are only allowed from pre-prod"
             exit 1
           fi
@@ -52,26 +31,31 @@ steps:
           # for example, there could be PII data that ends up accidentally being collected
           export build_profile="${_HEAD_BRANCH}"
         fi
-
-
-        echo "**** Build triggered by pull request ****"
-        echo "COMMIT_SHA: ${COMMIT_SHA}"
-        echo "REVISION_ID: ${REVISION_ID}"
-        echo "SHORT_SHA: ${SHORT_SHA}"
-        echo "BRANCH_NAME: ${BRANCH_NAME}"
-        echo "TRIGGER_NAME: ${TRIGGER_NAME}"
-        echo "_PR_NUMBER: ${_PR_NUMBER}"
-        echo "_BASE_BRANCH: ${_BASE_BRANCH}"
-        echo "_HEAD_BRANCH: ${_HEAD_BRANCH}"
-        echo "build_profile=${build_profile}"
-        echo "build_prefix=${build_prefix}"
-        echo "*********************************"
-
-
       fi
       
 
-
+      echo "*********************************"
+      echo "****   Cloud Build Env Vars   ***"
+      echo "*********************************"
+      echo ""
+      echo "COMMIT_SHA: ${COMMIT_SHA}"
+      echo "REVISION_ID: ${REVISION_ID}"
+      echo "SHORT_SHA: ${SHORT_SHA}"
+      echo "BRANCH_NAME: ${BRANCH_NAME}"
+      echo "TRIGGER_NAME: ${TRIGGER_NAME}"
+      echo "_PR_NUMBER: ${_PR_NUMBER}"
+      echo "_BASE_BRANCH: ${_BASE_BRANCH}"
+      echo "_HEAD_BRANCH: ${_HEAD_BRANCH}"
+      echo ""
+      echo "*********************************"
+      echo "****    Apigee Env Vars       ***"
+      echo "*********************************"
+      echo ""
+      echo "*********************************"
+      echo "build_profile=${build_profile}"
+      echo "build_prefix=${build_prefix}"
+      echo "build_apigee_org=${build_apigee_org}"
+      echo "*********************************"
 
       export build_token=\"$(gcloud auth application-default print-access-token)\"
 
@@ -101,7 +85,7 @@ steps:
     - |
       # Read environment variables from disk
       source /workspace/build_vars &&
-      mvn -f cloudbuild-pom.xml -ntp process-resources -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dcommit=$COMMIT_SHA -Dbranch=$BRANCH_NAME -Duser.name=cloudbuild
+      mvn -f cloudbuild-pom.xml -ntp process-resources -P${build_profile} -Dorg=${build_apigee_org} -Ddeployment.suffix=${build_prefix} -Dcommit=$COMMIT_SHA -Dbranch=$BRANCH_NAME -Duser.name=cloudbuild
 - name: 'gcr.io/cloud-builders/mvn'
   id: "Pre-deployment Configurations"
   entrypoint: 'bash'
@@ -110,7 +94,7 @@ steps:
     - |
       # Read environment variables from disk
       source /workspace/build_vars &&
-      mvn -f cloudbuild-pom.xml -ntp apigee-config:targetservers -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dbearer=${build_token}
+      mvn -f cloudbuild-pom.xml -ntp apigee-config:targetservers -P${build_profile} -Dorg=${build_apigee_org} -Ddeployment.suffix=${build_prefix} -Dbearer=${build_token}
 - name: 'gcr.io/cloud-builders/mvn'
   id: "Package"
   entrypoint: 'bash'
@@ -119,7 +103,7 @@ steps:
     - |
       # Read environment variables from disk
       source /workspace/build_vars &&
-      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:configure -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix}
+      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:configure -P${build_profile} -Dorg=${build_apigee_org} -Ddeployment.suffix=${build_prefix}
 - name: 'gcr.io/cloud-builders/mvn'
   id: "Deploy"
   entrypoint: 'bash'
@@ -128,7 +112,7 @@ steps:
     - |
       # Read environment variables from disk
       source /workspace/build_vars &&
-      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:deploy -P${build_profile} -Dorg=$PROJECT_ID -Ddeployment.suffix=${build_prefix} -Dbearer=${build_token}
+      mvn -f cloudbuild-pom.xml -ntp apigee-enterprise:deploy -P${build_profile} -Dorg=${build_apigee_org} -Ddeployment.suffix=${build_prefix} -Dbearer=${build_token}
 - name: node:12
   id: "Functional Test"
   entrypoint: npm
