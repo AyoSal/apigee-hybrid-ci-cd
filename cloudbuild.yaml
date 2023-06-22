@@ -26,6 +26,17 @@ steps:
       if [ -z "$_PR_NUMBER" ]
       then
         export build_prefix=""
+        echo "**** Build triggered by commit ****"
+        echo "COMMIT_SHA: ${COMMIT_SHA}"
+        echo "REVISION_ID: ${REVISION_ID}"
+        echo "SHORT_SHA: ${SHORT_SHA}"
+        echo "BRANCH_NAME: ${BRANCH_NAME}"
+        echo "TRIGGER_NAME: ${TRIGGER_NAME}"
+        echo "_PR_NUMBER: ${_PR_NUMBER}"
+        echo "_BASE_BRANCH: ${_BASE_BRANCH}"
+        echo "build_profile=${build_profile}"
+        echo "build_prefix=${build_prefix}"
+        echo "*********************************"
       else
         export build_prefix="PR${_PR_NUMBER}-"
         export build_profile="${_BASE_BRANCH}"
@@ -38,10 +49,28 @@ steps:
           # for PRs into prod, avoid deploying to prod env, instead deploy in pre-prod
           # a lot of the time it's not good practice to test against production 
           # for example, there could be PII data that ends up accidentally being collected
-          export build_profile="pre-prod"
+          export build_profile="${_HEAD_BRANCH}"
         fi
+
+
+        echo "**** Build triggered by pull request ****"
+        echo "COMMIT_SHA: ${COMMIT_SHA}"
+        echo "REVISION_ID: ${REVISION_ID}"
+        echo "SHORT_SHA: ${SHORT_SHA}"
+        echo "BRANCH_NAME: ${BRANCH_NAME}"
+        echo "TRIGGER_NAME: ${TRIGGER_NAME}"
+        echo "_PR_NUMBER: ${_PR_NUMBER}"
+        echo "_BASE_BRANCH: ${_BASE_BRANCH}"
+        echo "build_profile=${build_profile}"
+        echo "build_prefix=${build_prefix}"
+        echo "*********************************"
+
+
       fi
       
+
+
+
       export build_token=\"$(gcloud auth application-default print-access-token)\"
 
       # write all "build_" variables to the persistent volume "/workspace"
