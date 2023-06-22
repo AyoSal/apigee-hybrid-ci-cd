@@ -25,9 +25,21 @@ steps:
       
       if [ -z "$_PR_NUMBER" ]
       then
-      export build_prefix=""
+        export build_prefix=""
       else
-      export build_prefix="PR${_PR_NUMBER}-"
+        export build_prefix="PR${_PR_NUMBER}-"
+        export build_profile="${_BASE_BRANCH}"
+
+        if ["${_BASE_BRANCH}" = "prod"] ; then
+          if ["${_HEAD_BRANCH}" != "pre-prod"] ; then
+            echo "Pull Requests into prod are only allowed from pre-prod"
+            exit 1
+          fi
+          # for PRs into prod, avoid deploying to prod env, instead deploy in pre-prod
+          # a lot of the time it's not good practice to test against production 
+          # for example, there could be PII data that ends up accidentally being collected
+          export build_profile="pre-prod"
+        fi
       fi
       
       export build_token=\"$(gcloud auth application-default print-access-token)\"
