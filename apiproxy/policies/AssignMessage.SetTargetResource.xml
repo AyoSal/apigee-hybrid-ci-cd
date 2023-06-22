@@ -1,5 +1,6 @@
 <AssignMessage name="AssignMessage.SetTargetResource">
 
+    <!-- Hello World -->
     <Set> 
 	   <Headers> 
 	      <Header name="Accept-Encoding">identity</Header> 
