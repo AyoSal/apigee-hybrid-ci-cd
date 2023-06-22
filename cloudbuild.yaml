@@ -51,7 +51,6 @@ steps:
       echo "****    Apigee Env Vars       ***"
       echo "*********************************"
       echo ""
-      echo "*********************************"
       echo "build_profile=${build_profile}"
       echo "build_prefix=${build_prefix}"
       echo "build_apigee_org=${build_apigee_org}"
